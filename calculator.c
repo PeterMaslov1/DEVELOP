@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <string.h>
 
 int main() {
     printf("Добро пожаловать в продвинутый калькулятор на C!\n");
