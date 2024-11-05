@@ -1,48 +1,66 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 
 int main() {
-    char operator;
-    double num1, num2, result;
+    printf("Добро пожаловать в продвинутый калькулятор на C!\n");
+    printf("Доступные операции: +, -, *, /, **, sin, cos\n");
+    printf("Введите 'выход' для завершения\n");
 
-    printf("Введите оператор (+, -, *, /, sin, cos): ");
-    scanf("%c", &operator);
+    while (1) {
+        char expression[100];
+        printf("Введите выражение: ");
+        scanf("%s", expression);
 
-    printf("Введите два числа: ");
-    scanf("%lf %lf", &num1, &num2);
+        if (strcmp(expression, "выход") == 0) {
+            printf("До свидания!\n");
+            break;
+        }
 
-    switch (operator) {
-        case '+':
-            result = num1 + num2;
-            printf("Результат: %.2f\n", result);
-            break;
-        case '-':
-            result = num1 - num2;
-            printf("Результат: %.2f\n", result);
-            break;
-        case '*':
-            result = num1 * num2;
-            printf("Результат: %.2f\n", result);
-            break;
-        case '/':
-            if (num2 == 0) {
-                printf("Ошибка: деление на 0\n");
-                return 1;
-            }
-            result = num1 / num2;
-            printf("Результат: %.2f\n", result);
-            break;
-        case 'sin':
-            result = sin(num1);
-            printf("Синус %.2f = %.2f\n", num1, result);
-            break;
-        case 'cos':
-            result = cos(num1);
-            printf("Косинус %.2f = %.2f\n", num1, result);
-            break;
-        default:
-            printf("Ошибка: неправильный оператор\n");
-            return 1;
+        double result = 0.0;
+        char* endptr;
+        double operand1 = strtod(expression, &endptr);
+
+        if (endptr == expression) {
+            printf("Неверный ввод. Пожалуйста, попробуйте еще раз.\n");
+            continue;
+        }
+
+        char op = *endptr;
+        double operand2 = strtod(endptr + 1, NULL);
+
+        switch (op) {
+            case '+':
+                result = operand1 + operand2;
+                break;
+            case '-':
+                result = operand1 - operand2;
+                break;
+            case '*':
+                result = operand1 * operand2;
+                break;
+            case '/':
+                if (operand2 == 0) {
+                    printf("Ошибка: деление на ноль\n");
+                    continue;
+                }
+                result = operand1 / operand2;
+                break;
+            case '^':
+                result = pow(operand1, operand2);
+                break;
+            case 's':
+                result = sin(operand1 * M_PI / 180.0);
+                break;
+            case 'c':
+                result = cos(operand1 * M_PI / 180.0);
+                break;
+            default:
+                printf("Неизвестная операция. Пожалуйста, попробуйте еще раз.\n");
+                continue;
+        }
+
+        printf("Результат: %.2f\n", result);
     }
 
     return 0;
